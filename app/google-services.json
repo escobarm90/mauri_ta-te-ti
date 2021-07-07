@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "559426990933",
+    "project_id": "oval-tuner-314322",
+    "storage_bucket": "oval-tuner-314322.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:559426990933:android:da67c63e57b02b837df5dc",
+        "android_client_info": {
+          "package_name": "ar.com.develup.tateti"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "559426990933-ks625ko12kmeeefa4lnk3kbo1j7bohvu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxTj6JrQJ-G9LKwRf-sTqsZ4iLrA3qZMk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "559426990933-ks625ko12kmeeefa4lnk3kbo1j7bohvu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
