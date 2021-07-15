@@ -132,9 +132,9 @@ class ActividadInicial : AppCompatActivity() {
         // TODO-05-AUTHENTICATION
         // hacer signInWithEmailAndPassword con los valores ingresados de email y password
         // Agregar en addOnCompleteListener el campo authenticationListener definido mas abajo
-        FirebaseAuth.getInstance()
-            .signInWithEmailAndPassword(email!!, password!!)
-            .addOnCompleteListener(authenticationListener)
+            FirebaseAuth.getInstance()
+                .signInWithEmailAndPassword(email!!, password!!)
+                .addOnCompleteListener(authenticationListener)
     }
 
     private val authenticationListener: OnCompleteListener<AuthResult?> =

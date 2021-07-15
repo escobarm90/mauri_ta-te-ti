@@ -46,7 +46,7 @@ class ActividadRegistracion : AppCompatActivity() {
         // TODO-05-AUTHENTICATION
         // Crear el usuario con el email y passwordIngresada
         // Ademas, registrar en CompleteListener el listener registracionCompletaListener definido mas abajo
-        FirebaseAuth.getInstance()
+              FirebaseAuth.getInstance()
             .createUserWithEmailAndPassword(email, passwordIngresada)
             .addOnCompleteListener(this, registracionCompletaListener)
     }
@@ -56,7 +56,7 @@ class ActividadRegistracion : AppCompatActivity() {
 //            // Si se registro OK, muestro mensaje y envio mail de verificacion
             Snackbar.make(rootView, "Registro exitoso", Snackbar.LENGTH_SHORT).show()
             enviarEmailDeVerificacion()
-//        } else if (task.exception is FirebaseAuthUserCollisionException) {
+        } else if (task.exception is FirebaseAuthUserCollisionException) {
             // Si el usuario ya existe, mostramos error
             Snackbar.make(rootView, "El usuario ya existe", Snackbar.LENGTH_SHORT).show()
         } else {

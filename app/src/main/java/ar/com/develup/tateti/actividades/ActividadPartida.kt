@@ -1,7 +1,6 @@
 package ar.com.develup.tateti.actividades
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
@@ -12,15 +11,11 @@ import ar.com.develup.tateti.modelo.Movimiento
 import ar.com.develup.tateti.modelo.Partida
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.actividad_partida.*
+import kotlinx.android.synthetic.main.item_partida.*
 import java.util.*
+
 
 class ActividadPartida : AppCompatActivity() {
 
@@ -78,11 +73,11 @@ class ActividadPartida : AppCompatActivity() {
 
         private val partidaCambio: ValueEventListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val partida = dataSnapshot.getValue(Partida::class.java)!!
+                val partida = dataSnapshot.getValue(Partida::class.java)
                 // Obtener la partida a partir del dataSnapshot
                 if (partida != null) {
-                    partida.id = dataSnapshot.key
                 // Asignar el valor del campo "key" del dataSnapshot
+                    partida.id = dataSnapshot.key
                     this@ActividadPartida.partida = partida
                     cargarVistasPartidaIniciada()
                 }
@@ -168,10 +163,10 @@ class ActividadPartida : AppCompatActivity() {
         private fun establecerGanador(ganador: String?) {
             partida?.ganador = ganador
             val database = obtenerReferenciaALaBaseDeDatos()
-            val referenciaPartidas = null // TODO-06-DATABASE cambiar el valor null por el child de la database llamado "Constantes.TABLA_PARTIDAS"
-            val referenciaPartida = null // TODO-06-DATABASE cambiar el valor null por el child de referenciaPartidas con el id de la partida como parametro
+            val referenciaPartidas = FirebaseDatabase.getInstance().getReference(Constantes.TABLA_PARTIDAS).child(partida!!.id!!)
+            val referenciaPartida = referenciaPartidas.child(partida?.id!!)
             // TODO-06-DATABASE Descomentar la siguiente linea una vez obtenidos los dos datos anteriores
-    //        referenciaPartida.child("ganador").setValue(ganador)
+              referenciaPartida.child("ganador").setValue(ganador)
         }
 
         fun jugar(button: Button) {
@@ -206,10 +201,10 @@ class ActividadPartida : AppCompatActivity() {
             val jugador = obtenerIdDeUsuario()
             partida?.movimientos?.add(Movimiento(posicion, jugador))
             val database = obtenerReferenciaALaBaseDeDatos()
-            val referenciaPartidas = null // TODO-06-DATABASE cambiar el valor null por el child de la database llamado "Constantes.TABLA_PARTIDAS"
-            val referenciaPartida = null // TODO-06-DATABASE cambiar el valor null por el child de referenciaPartidas con el id de la partida como parametro
+            val referenciaPartidas = FirebaseDatabase.getInstance().getReference(Constantes.TABLA_PARTIDAS).child(partida!!.id!!)
+            val referenciaPartida = referenciaPartidas.child(partida!!.id!!)
             // TODO-06-DATABASE Descomentar la siguiente linea una vez obtenidos los dos datos anteriores
-    //        referenciaPartida.child("movimientos").setValue(partida?.movimientos)
+              referenciaPartida.child("movimientos").setValue(partida?.movimientos)
         }
 
         private fun crearPartida(posicion: Int) {
@@ -218,11 +213,11 @@ class ActividadPartida : AppCompatActivity() {
             partida?.retador = jugador
             partida?.movimientos?.add(Movimiento(posicion, jugador))
             val database = obtenerReferenciaALaBaseDeDatos()
-            val referenciaPartidas = null // TODO-06-DATABASE cambiar el valor null por el child de la database llamado "Constantes.TABLA_PARTIDAS"
-            val referenciaPartida = null // TODO-06-DATABASE hacer un push() de referenciaPartidas para guardar el valor
+            val referenciaPartidas = database.child(Constantes.TABLA_PARTIDAS)
+            val referenciaPartida = referenciaPartidas.push()
             // TODO-06-DATABASE Descomentar las dos siguientes linea una vez obtenidos los dos datos anteriores
-    //        referenciaPartida.setValue(partida)
-    //        partida?.id = referenciaPartida.key
+              referenciaPartida.setValue(partida)
+              partida?.id = referenciaPartida.key
             suscribirseACambiosEnLaPartida()
         }
 
@@ -230,19 +225,20 @@ class ActividadPartida : AppCompatActivity() {
             val jugador = obtenerIdDeUsuario()
             partida?.oponente = jugador
             val database = obtenerReferenciaALaBaseDeDatos()
-            val referenciaPartidas = null // TODO-06-DATABASE cambiar el valor null por el child de la database llamado "Constantes.TABLA_PARTIDAS"
-            val referenciaPartida = null // TODO-06-DATABASE cambiar el valor null por el child de referenciaPartidas con el id de la partida como parametro
+            val referenciaPartidas = FirebaseDatabase.getInstance().getReference(Constantes.TABLA_PARTIDAS).child(partida!!.id!!)
+            val referenciaPartida = referenciaPartidas.child(partida?.id!!)
             // TODO-06-DATABASE Descomentar la siguiente linea una vez obtenidos los dos datos anteriores
-    //      referenciaPartida.child("oponente").setValue(jugador)
+            referenciaPartida.child("oponente").setValue(jugador)
         }
 
         private fun obtenerIdDeUsuario(): String {
             val userid = FirebaseAuth.getInstance().currentUser?.uid
             return userid.toString()
         }
-
-        private fun obtenerReferenciaALaBaseDeDatos() {
+        private fun obtenerReferenciaALaBaseDeDatos(): DatabaseReference {
             // TODO-06-DATABASE
-            // Retornar una referencia a la instancia de la base de datos.
-        }
+            return FirebaseDatabase.getInstance().reference // getInstance().reference
+
+
+    }
 }
