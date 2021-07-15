@@ -7,10 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import ar.com.develup.tateti.R
 import ar.com.develup.tateti.adaptadores.AdaptadorPartidas
+import ar.com.develup.tateti.modelo.Constantes
 import ar.com.develup.tateti.modelo.Partida
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.actividad_partidas.*
 
 class ActividadPartidas : AppCompatActivity() {
@@ -33,8 +35,7 @@ class ActividadPartidas : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         // TODO-06-DATABASE
-        // Obtener una referencia a la base de datos, suscribirse a los cambios en Constantes.TABLA_PARTIDAS
-        // y agregar como ChildEventListener el listenerTablaPartidas definido mas abajo
+        FirebaseDatabase.getInstance().reference.child(Constantes.TABLA_PARTIDAS).addChildEventListener(listenerTablaPartidas)
     }
 
     fun nuevaPartida() {

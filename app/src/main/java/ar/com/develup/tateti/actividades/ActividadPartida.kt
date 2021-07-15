@@ -163,7 +163,7 @@ class ActividadPartida : AppCompatActivity() {
         private fun establecerGanador(ganador: String?) {
             partida?.ganador = ganador
             val database = obtenerReferenciaALaBaseDeDatos()
-            val referenciaPartidas = FirebaseDatabase.getInstance().getReference(Constantes.TABLA_PARTIDAS).child(partida!!.id!!)
+            val referenciaPartidas = database.child(Constantes.TABLA_PARTIDAS)
             val referenciaPartida = referenciaPartidas.child(partida?.id!!)
             // TODO-06-DATABASE Descomentar la siguiente linea una vez obtenidos los dos datos anteriores
               referenciaPartida.child("ganador").setValue(ganador)
@@ -201,7 +201,7 @@ class ActividadPartida : AppCompatActivity() {
             val jugador = obtenerIdDeUsuario()
             partida?.movimientos?.add(Movimiento(posicion, jugador))
             val database = obtenerReferenciaALaBaseDeDatos()
-            val referenciaPartidas = FirebaseDatabase.getInstance().getReference(Constantes.TABLA_PARTIDAS).child(partida!!.id!!)
+            val referenciaPartidas = database.child(Constantes.TABLA_PARTIDAS)
             val referenciaPartida = referenciaPartidas.child(partida!!.id!!)
             // TODO-06-DATABASE Descomentar la siguiente linea una vez obtenidos los dos datos anteriores
               referenciaPartida.child("movimientos").setValue(partida?.movimientos)
@@ -225,7 +225,7 @@ class ActividadPartida : AppCompatActivity() {
             val jugador = obtenerIdDeUsuario()
             partida?.oponente = jugador
             val database = obtenerReferenciaALaBaseDeDatos()
-            val referenciaPartidas = FirebaseDatabase.getInstance().getReference(Constantes.TABLA_PARTIDAS).child(partida!!.id!!)
+            val referenciaPartidas = database.child(Constantes.TABLA_PARTIDAS)
             val referenciaPartida = referenciaPartidas.child(partida?.id!!)
             // TODO-06-DATABASE Descomentar la siguiente linea una vez obtenidos los dos datos anteriores
             referenciaPartida.child("oponente").setValue(jugador)
@@ -237,7 +237,8 @@ class ActividadPartida : AppCompatActivity() {
         }
         private fun obtenerReferenciaALaBaseDeDatos(): DatabaseReference {
             // TODO-06-DATABASE
-            return FirebaseDatabase.getInstance().reference // getInstance().reference
+            val database = FirebaseDatabase.getInstance().reference
+            return database // getInstance().reference
 
 
     }

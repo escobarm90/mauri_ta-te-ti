@@ -21,6 +21,7 @@ import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfig
+import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import kotlinx.android.synthetic.main.actividad_inicial.*
 
 class ActividadInicial : AppCompatActivity() {
@@ -29,6 +30,8 @@ class ActividadInicial : AppCompatActivity() {
     private lateinit var firebaseAnalitycs: FirebaseAnalytics
     private lateinit var firebaseCrashlitycs: FirebaseCrashlytics
     private lateinit var remoteConfig: FirebaseRemoteConfig
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,17 +84,26 @@ class ActividadInicial : AppCompatActivity() {
         // TODO-04-REMOTECONFIG
         // Configurar los valores por default para remote config,
         // ya sea por codigo o por XML
+        val configuracion = remoteConfigSettings {
+            minimumFetchIntervalInSeconds = 10
+            fetchTimeoutInSeconds = 10
+        }
+        remoteConfig.setConfigSettingsAsync(configuracion)
+        val defaultsSettings = mapOf("olvidecontrasenia" to false)
+        Firebase.remoteConfig.setDefaultsAsync(defaultsSettings)
     }
 
     private fun configurarOlvideMiContrasena() {
         // TODO-04-REMOTECONFIG
         // Obtener el valor de la configuracion para saber si mostrar
         // o no el boton de olvide mi contraseña
-        val botonOlvideHabilitado = false
-        if (botonOlvideHabilitado) {
-            olvideMiContrasena.visibility = View.VISIBLE
-        } else {
-            olvideMiContrasena.visibility = View.GONE
+        Firebase.remoteConfig.fetchAndActivate().addOnCompleteListener {
+            val botonOlvideHabilitado = Firebase.remoteConfig.getBoolean("olvidecontrasenia")
+            if (botonOlvideHabilitado) {
+                olvideMiContrasena.visibility = View.VISIBLE
+            } else {
+                olvideMiContrasena.visibility = View.GONE
+            }
         }
     }
 
