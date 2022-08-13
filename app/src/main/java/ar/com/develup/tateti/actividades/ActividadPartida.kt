@@ -28,7 +28,6 @@ class ActividadPartida : AppCompatActivity() {
             if (intent.hasExtra(Constantes.EXTRA_PARTIDA)) {
                 partida = intent.getSerializableExtra(Constantes.EXTRA_PARTIDA) as Partida
 
-                // Si esta partida creada no tiene oponente, entonces me sumo yo como oponente
                 if (partida?.oponente == null) {
                     sumarmeComoOponente()
                 }
@@ -51,21 +50,12 @@ class ActividadPartida : AppCompatActivity() {
 
 
     private fun suscribirseACambiosEnLaPartida() {
-        // TODO-06-DATABASE
-        // 1 - Obtener una referencia a Constantes.TABLA_PARTIDAS
         FirebaseDatabase.getInstance().getReference(Constantes.TABLA_PARTIDAS).child(partida!!.id!!)
             .addValueEventListener(partidaCambio)
-        // 2 - Obtener el child de la partida, a partir de partida.id
-        // 3 - Agregar como valueEventListener el listener partidaCambio definido mas abajo
     }
 
     override fun onPause() {
         super.onPause()
-        // TODO-06-DATABASE
-        // Ahora nos tenemos que desuscribir a los cambios en la base de datos.
-        // 1 - Obtener una referencia a Constantes.TABLA_PARTIDAS
-        // 2 - Obtener el child de la partida, a partir de partida.id
-        // 3 - REMOVER el valueEventListener el listener partidaCambio
         FirebaseDatabase.getInstance().getReference(Constantes.TABLA_PARTIDAS).child(partida!!.id!!)
             .removeEventListener(partidaCambio)
     }
@@ -74,9 +64,7 @@ class ActividadPartida : AppCompatActivity() {
         private val partidaCambio: ValueEventListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val partida = dataSnapshot.getValue(Partida::class.java)
-                // Obtener la partida a partir del dataSnapshot
                 if (partida != null) {
-                // Asignar el valor del campo "key" del dataSnapshot
                     partida.id = dataSnapshot.key
                     this@ActividadPartida.partida = partida
                     cargarVistasPartidaIniciada()
@@ -165,7 +153,6 @@ class ActividadPartida : AppCompatActivity() {
             val database = obtenerReferenciaALaBaseDeDatos()
             val referenciaPartidas = database.child(Constantes.TABLA_PARTIDAS)
             val referenciaPartida = referenciaPartidas.child(partida?.id!!)
-            // TODO-06-DATABASE Descomentar la siguiente linea una vez obtenidos los dos datos anteriores
               referenciaPartida.child("ganador").setValue(ganador)
         }
 
@@ -203,7 +190,6 @@ class ActividadPartida : AppCompatActivity() {
             val database = obtenerReferenciaALaBaseDeDatos()
             val referenciaPartidas = database.child(Constantes.TABLA_PARTIDAS)
             val referenciaPartida = referenciaPartidas.child(partida!!.id!!)
-            // TODO-06-DATABASE Descomentar la siguiente linea una vez obtenidos los dos datos anteriores
               referenciaPartida.child("movimientos").setValue(partida?.movimientos)
         }
 
@@ -215,7 +201,6 @@ class ActividadPartida : AppCompatActivity() {
             val database = obtenerReferenciaALaBaseDeDatos()
             val referenciaPartidas = database.child(Constantes.TABLA_PARTIDAS)
             val referenciaPartida = referenciaPartidas.push()
-            // TODO-06-DATABASE Descomentar las dos siguientes linea una vez obtenidos los dos datos anteriores
               referenciaPartida.setValue(partida)
               partida?.id = referenciaPartida.key
             suscribirseACambiosEnLaPartida()
@@ -227,7 +212,6 @@ class ActividadPartida : AppCompatActivity() {
             val database = obtenerReferenciaALaBaseDeDatos()
             val referenciaPartidas = database.child(Constantes.TABLA_PARTIDAS)
             val referenciaPartida = referenciaPartidas.child(partida?.id!!)
-            // TODO-06-DATABASE Descomentar la siguiente linea una vez obtenidos los dos datos anteriores
             referenciaPartida.child("oponente").setValue(jugador)
         }
 
@@ -236,9 +220,8 @@ class ActividadPartida : AppCompatActivity() {
             return userid.toString()
         }
         private fun obtenerReferenciaALaBaseDeDatos(): DatabaseReference {
-            // TODO-06-DATABASE
             val database = FirebaseDatabase.getInstance().reference
-            return database // getInstance().reference
+            return  database //getInstance().reference
 
 
     }

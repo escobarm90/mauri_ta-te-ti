@@ -34,7 +34,6 @@ class ActividadPartidas : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        // TODO-06-DATABASE
         FirebaseDatabase.getInstance().reference.child(Constantes.TABLA_PARTIDAS).addChildEventListener(listenerTablaPartidas)
     }
 

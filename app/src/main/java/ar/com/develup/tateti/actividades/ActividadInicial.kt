@@ -45,8 +45,6 @@ class ActividadInicial : AppCompatActivity() {
         olvideMiContrasena.setOnClickListener { olvideMiContrasena() }
 
         if (usuarioEstaLogueado()) {
-            // Si el usuario esta logueado, se redirige a la pantalla
-            // de partidas
             verPartidas()
             finish()
         }
@@ -54,10 +52,7 @@ class ActividadInicial : AppCompatActivity() {
     }
 
     private fun usuarioEstaLogueado(): Boolean {
-        // TODO-05-AUTHENTICATION
-        // Validar que currentUser sea != null
         super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
         if (currentUser != null) {
             AppCompatActivity();
@@ -81,9 +76,6 @@ class ActividadInicial : AppCompatActivity() {
     }
 
     private fun configurarDefaultsRemoteConfig() {
-        // TODO-04-REMOTECONFIG
-        // Configurar los valores por default para remote config,
-        // ya sea por codigo o por XML
         val configuracion = remoteConfigSettings {
             minimumFetchIntervalInSeconds = 10
             fetchTimeoutInSeconds = 10
@@ -94,9 +86,6 @@ class ActividadInicial : AppCompatActivity() {
     }
 
     private fun configurarOlvideMiContrasena() {
-        // TODO-04-REMOTECONFIG
-        // Obtener el valor de la configuracion para saber si mostrar
-        // o no el boton de olvide mi contraseña
         Firebase.remoteConfig.fetchAndActivate().addOnCompleteListener {
             val botonOlvideHabilitado = Firebase.remoteConfig.getBoolean("olvidecontrasenia")
             if (botonOlvideHabilitado) {
@@ -108,19 +97,10 @@ class ActividadInicial : AppCompatActivity() {
     }
 
     private fun olvideMiContrasena() {
-        // Obtengo el mail
         val email = email.text.toString()
-
-        // Si no completo el email, muestro mensaje de error
         if (email.isEmpty()) {
             Snackbar.make(rootView!!, "Completa el email", Snackbar.LENGTH_SHORT).show()
         } else {
-            // TODO-05-AUTHENTICATION
-            // Si completo el mail debo enviar un mail de reset
-            // Para ello, utilizamos sendPasswordResetEmail con el email como parametro
-            // Agregar el siguiente fragmento de codigo como CompleteListener, que notifica al usuario
-            // el resultado de la operacion
-
             FirebaseAuth.getInstance().sendPasswordResetEmail(email!!)
               .addOnCompleteListener { task ->
                   if (task.isSuccessful) {
@@ -139,11 +119,7 @@ class ActividadInicial : AppCompatActivity() {
             Snackbar.make(rootView!!, "Campos vacios", Snackbar.LENGTH_SHORT)
                 .show()
         }else
-        // TODO-05-AUTHENTICATION
-        // IMPORTANTE: Eliminar  la siguiente linea cuando se implemente authentication
-        // TODO-05-AUTHENTICATION
-        // hacer signInWithEmailAndPassword con los valores ingresados de email y password
-        // Agregar en addOnCompleteListener el campo authenticationListener definido mas abajo
+
             FirebaseAuth.getInstance()
                 .signInWithEmailAndPassword(email!!, password!!)
                 .addOnCompleteListener(authenticationListener)
@@ -175,8 +151,6 @@ class ActividadInicial : AppCompatActivity() {
 
 
     private fun usuarioVerificoEmail(): Boolean {
-        // TODO-05-AUTHENTICATION
-        // Preguntar al currentUser si verifico email
         if (FirebaseAuth.getInstance().currentUser?.isEmailVerified!!) {
             return true
         }
@@ -186,7 +160,6 @@ class ActividadInicial : AppCompatActivity() {
 
 
     fun desloguearse() {
-        // TODO-05-AUTHENTICATION
         Firebase.auth.signOut()
     }
 }
