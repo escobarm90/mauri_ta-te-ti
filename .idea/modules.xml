@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tateti-firebase-trabajopractico.iml" filepath="$PROJECT_DIR$/.idea/modules/tateti-firebase-trabajopractico.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/tateti-firebase-trabajopractico.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/tateti-firebase-trabajopractico.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mauri_ta-te-ti.iml" filepath="$PROJECT_DIR$/.idea/modules/mauri_ta-te-ti.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/mauri_ta-te-ti.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/mauri_ta-te-ti.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/mauri_ta-te-ti.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/mauri_ta-te-ti.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/mauri_ta-te-ti.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/mauri_ta-te-ti.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/mauri_ta-te-ti.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/mauri_ta-te-ti.app.unitTest.iml" />
     </modules>
   </component>
 </project>
